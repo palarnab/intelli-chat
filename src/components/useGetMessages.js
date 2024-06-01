@@ -1,5 +1,5 @@
+import { fetch, subscribe, unsubscribe } from '../supabase';
 import { useEffect, useState } from 'react';
-import { subscribe, unsubscribe, fetch } from '../supabase';
 
 export default function useGetMessages(page, senderId, receiverId) {
   const [messages, setMessages] = useState([]);

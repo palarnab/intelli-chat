@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { send } from '../supabase';
 import { Box, Button, TextField as TextInput } from '@mui/material';
+import React, { useState } from 'react';
+
 import EmojiPicker from 'emoji-picker-react';
+import { send } from '../supabase';
 
 const SendMessage = ({ sender, receiver, scrollIntoView }) => {
   const [text, setText] = useState('');
