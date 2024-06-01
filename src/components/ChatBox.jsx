@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { Box } from '@mui/material';
-import Error from './Error';
-import Message from './Message';
-import SendMessage from './SendMessage';
+import Error from './Error.jsx';
+import Message from './Message.jsx';
+import SendMessage from './SendMessage.jsx';
 import useGetMessages from './useGetMessages';
 
 const ChatBox = ({ sender, receiver, isFullPage }) => {

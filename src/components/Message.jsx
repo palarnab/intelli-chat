@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material';
 
-import ContentRenderer from './ContentRenderer';
+import ContentRenderer from './ContentRenderer.jsx';
 import React from 'react';
 import { formatDistance } from 'date-fns';
 

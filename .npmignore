@@ -1,0 +1,8 @@
+src/
+dist/
+public/
+.gitignore
+.prettierrc
+package.json
+package-lock.json
+rollup.config.js
