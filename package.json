@@ -1,6 +1,6 @@
 {
   "name": "@tumbleddowntoearth/intelli-chat",
-  "version": "0.0.2a-beta",
+  "version": "0.0.2b-beta",
   "description": "Intellichat is an attempt to create a react base simple supabase client",
   "main": "dist/index.js",
   "keywords": [
@@ -40,8 +40,6 @@
     "rollup-plugin-terser": "^7.0.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
     "build-lib": "rollup -c"
   },
   "eslintConfig": {
