@@ -3,12 +3,13 @@
 Intellichat is an attempt to create a react base simple supabase client. Settingup Supabase tables and realtime configuration to be done separately.
 
 Steps:
-1. Create your supabase account
-2. Create a table names 'messages'
-3. Enable realtime in 'messages' table for INSERT
-4. Design table colums like below:
 
-   ![image](https://github.com/palarnab/intelli-chat/assets/39365010/4dcfd824-3b20-4d64-b359-bdd6475490c1)
+1. Create your supabase account (https://supabase.com/dashboard)
+2. Create a table with name 'your_appname_table'
+3. Enable realtime in 'your_appname_table' table for INSERT
+4. Design table colums like below:
+   
+   ![image](https://github.com/palarnab/intelli-chat/assets/39365010/5c4c0990-40e6-436c-bbbc-20e8786e290c)
 
 
 Next configure your react app to use intelli-chat library
@@ -18,12 +19,18 @@ Next configure your react app to use intelli-chat library
 ```
 REACT_APP_SUPABASE_URL=<YOUR_SUPABASE_URL>
 REACT_APP_SUPABASE_KEY=<YOUR_SUPABASE_KEY>
+REACT_APP_SUPABASE_APP=<YOUR_SUPABASE_APP>
 ```
+
+YOUR_SUPABASE_APP = is the name of the table you have created. This is used to partition all chat messsages for multiple apps that you might maintain.
+
+For a single app you can use YOUR_SUPABASE_APP = 'messages' or 'chats'
+Otherwise your_appname_table SHOULD BE EQUAL TO YOUR_SUPABASE_APP
 
 ## Install the following package:
 
 ```
-npm i @tumbleddowntoearth/intelli-chat@0.0.2-a-beta
+npm i @tumbleddowntoearth/intelli-chat
 ```
 
 ## Import the ChatBox Component
