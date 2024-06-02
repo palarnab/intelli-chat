@@ -4,7 +4,7 @@ Intellichat is an attempt to create a react base simple supabase client. Setting
 
 Steps:
 
-1. Create your supabase account
+1. Create your supabase account (https://supabase.com/dashboard)
 2. Create a table with name 'your_appname_table'
 3. Enable realtime in 'your_appname_table' table for INSERT
 4. Design table colums like below:
