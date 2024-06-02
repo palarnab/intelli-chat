@@ -8,6 +8,7 @@ Steps:
 2. Create a table with name 'your_appname_table'
 3. Enable realtime in 'your_appname_table' table for INSERT
 4. Design table colums like below:
+   
    ![image](https://github.com/palarnab/intelli-chat/assets/39365010/5c4c0990-40e6-436c-bbbc-20e8786e290c)
 
 
