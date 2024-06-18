@@ -14,6 +14,7 @@ const ContentRenderer = ({ content }) => {
           fontFamily="sans-serif"
           fontSize="0.8rem"
           lineHeight={1.1}
+          style={{ paddingBottom: '0.5rem' }}
           key={index}>
           {paragraph.split(' ').map((part) =>
             URL_REGEX.test(part) ? (
