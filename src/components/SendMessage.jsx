@@ -31,6 +31,7 @@ const SendMessage = ({ sender, receiver, scrollIntoView }) => {
 
     setText('');
     scrollIntoView();
+    setLoading(false);
   };
 
   const emojiSelected = (e) => {

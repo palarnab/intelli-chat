@@ -40,9 +40,10 @@ export default function useGetMessages(page, senderId, receiverId) {
   }, [page]);
 
   useEffect(() => {
+    setMessages([]);
     subscribe((data) => mergeMessages(data), conversation_id);
     return () => unsubscribe;
-  }, []);
+  }, [senderId, receiverId]);
 
   if (!senderId || !receiverId) return { messages: [], hasMore: false };
 

@@ -6,7 +6,15 @@ import Message from './Message.jsx';
 import SendMessage from './SendMessage.jsx';
 import useGetMessages from './useGetMessages';
 
-const ChatBox = ({ sender, receiver, isFullPage }) => {
+const ChatBox = ({
+  sender,
+  receiver,
+  isFullPage,
+  containerHeight,
+  showUserAvatar,
+  bgSender,
+  bgReceiver,
+}) => {
   const [page, setPage] = useState(0);
   const scroll = useRef();
   const { messages, hasMore, initialized } = useGetMessages(
@@ -88,7 +96,11 @@ const ChatBox = ({ sender, receiver, isFullPage }) => {
     <div style={isFullPage ? boxStyle : null}>
       <Box
         mt="0.5em"
-        style={{ height: '72vh', overflow: 'auto', scrollbarWidth: 'thin' }}>
+        style={{
+          height: containerHeight || '72vh',
+          overflow: 'auto',
+          scrollbarWidth: 'thin',
+        }}>
         <div
           style={{ opacity: 0.3 }}
           ref={lastChatElementRef}
@@ -97,6 +109,9 @@ const ChatBox = ({ sender, receiver, isFullPage }) => {
         </div>
         {messages.map((message) => (
           <Message
+            userAvatar={showUserAvatar}
+            bgSender={bgSender}
+            bgReceiver={bgReceiver}
             key={message.id}
             message={message}
             messageUser={getUser(message.sender_id)}

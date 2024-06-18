@@ -1,10 +1,12 @@
 import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(
-  process.env.REACT_APP_SUPABASE_URL,
-  process.env.REACT_APP_SUPABASE_KEY,
+  process.env.REACT_APP_SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.REACT_APP_SUPABASE_KEY || process.env.NEXT_PUBLIC_SUPABASE_KEY,
 );
-const collection = process.env.REACT_APP_SUPABASE_APP;
+const collection =
+  process.env.REACT_APP_SUPABASE_APP || process.env.NEXT_PUBLIC_SUPABASE_APP;
+let channel = undefined;
 
 const fetch = async (setMessages, conversation_id, page = 0, perpage = 10) => {
   console.log(`GET - ${page}`);
@@ -24,7 +26,10 @@ const fetch = async (setMessages, conversation_id, page = 0, perpage = 10) => {
 };
 
 const subscribe = (setMessages, conversation_id) => {
-  supabase
+  if (channel) {
+    supabase.removeChannel(channel);
+  }
+  channel = supabase
     .channel('table_db_changes')
     .on(
       'postgres_changes',
