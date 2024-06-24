@@ -1,4 +1,4 @@
 import ChatBox from './components/ChatBox.jsx';
-import NavBar from './components/NavBar.jsx';
+import useGetMessages from './components/useGetMessages.js';
 
-export { ChatBox, NavBar };
+export { ChatBox, useGetMessages };
