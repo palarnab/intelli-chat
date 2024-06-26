@@ -1,6 +1,6 @@
 {
   "name": "@tumbleddowntoearth/intelli-chat",
-  "version": "0.0.3-beta",
+  "version": "0.0.4-beta",
   "description": "Intellichat is an attempt to create a react base simple supabase client",
   "main": "dist/index.js",
   "keywords": [
