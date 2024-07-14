@@ -9,17 +9,24 @@ Steps:
 3. Enable realtime in 'your_appname_table' table for INSERT
 4. Design table colums like below:
    
-   ![image](https://github.com/palarnab/intelli-chat/assets/39365010/5c4c0990-40e6-436c-bbbc-20e8786e290c)
+   ![image](https://github.com/user-attachments/assets/8c98bbe2-d47a-4817-abfc-4ab590c60d23)
+
 
 
 Next configure your react app to use intelli-chat library
 
-## Add 2 environments in .env:
+## Add 3 environments in .env:
 
 ```
 REACT_APP_SUPABASE_URL=<YOUR_SUPABASE_URL>
 REACT_APP_SUPABASE_KEY=<YOUR_SUPABASE_KEY>
 REACT_APP_SUPABASE_APP=<YOUR_SUPABASE_APP>
+```
+OR
+```
+NEXT_PUBLIC_SUPABASE_URL=<YOUR_SUPABASE_URL>
+NEXT_PUBLIC_SUPABASE_KEY=<YOUR_SUPABASE_KEY>
+NEXT_PUBLIC_SUPABASE_APP=<YOUR_SUPABASE_APP>
 ```
 
 YOUR_SUPABASE_APP = is the name of the table you have created. This is used to partition all chat messsages for multiple apps that you might maintain.
@@ -39,6 +46,12 @@ npm i @tumbleddowntoearth/intelli-chat
 import { ChatBox } from "@tumbleddowntoearth/intelli-chat";
 ```
 
+OR, you can direcly import useGetMessages, send and create/style your chatbox as you need (Get help from sample `Chatbox` code in this repository, about how to create a chatbox on top of undelying supabase api calls)
+
+```
+import { useGetMessages, send } from "@tumbleddowntoearth/intelli-chat";
+```
+
 ## Use the Chatbox component
 
 ```
@@ -53,4 +66,29 @@ const App = () => {
   );
 };
 export default App;
+```
+OR
+
+## Use the useGetMessages, send libraries
+
+```
+  const sender = { id: "XYZ", name: "Alice" };
+  const receiver = { id: "ABC", name: "Bob" };
+
+  const page = 0;
+
+  const { messages, hasMore, initialized } = useGetMessages(
+    page,
+    sender.id,
+    receiver.id,
+  );
+
+  const sendMessage = async () => {
+    await send({
+      message: 'hello',
+      conversation_id,
+      sender_id: sender.id,
+      receiver_id: receiver.id,
+    });
+  }
 ```

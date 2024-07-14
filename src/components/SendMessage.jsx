@@ -24,6 +24,7 @@ const SendMessage = ({ sender, receiver, scrollIntoView }) => {
     setLoading(true);
     await send({
       message: text,
+      metadata: '{"foo": "bar"}',
       conversation_id,
       sender_id: sender.id,
       receiver_id: receiver.id,
