@@ -14,7 +14,7 @@ const fetch = async (setMessages, conversation_id, page = 0, perpage = 10) => {
   const end = start + 10;
   const { data, error } = await supabase
     .from(collection)
-    .select('id, message, receiver_id, sender_id, created_at')
+    .select('id, message, metadata, receiver_id, sender_id, created_at')
     .eq('conversation_id', conversation_id)
     .order('created_at', { ascending: false })
     .range(start, end);

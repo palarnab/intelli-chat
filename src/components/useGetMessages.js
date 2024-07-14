@@ -41,6 +41,7 @@ export default function useGetMessages(page, senderId, receiverId) {
 
   useEffect(() => {
     setMessages([]);
+    setInitialized(false);
     subscribe((data) => mergeMessages(data), conversation_id);
     return () => unsubscribe;
   }, [senderId, receiverId]);
