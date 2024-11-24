@@ -8,10 +8,8 @@ Steps:
 2. Create a table with name 'your_appname_table'
 3. Enable realtime in 'your_appname_table' table for INSERT
 4. Design table colums like below:
-   
+
    ![image](https://github.com/user-attachments/assets/8c98bbe2-d47a-4817-abfc-4ab590c60d23)
-
-
 
 Next configure your react app to use intelli-chat library
 
@@ -22,7 +20,9 @@ REACT_APP_SUPABASE_URL=<YOUR_SUPABASE_URL>
 REACT_APP_SUPABASE_KEY=<YOUR_SUPABASE_KEY>
 REACT_APP_SUPABASE_APP=<YOUR_SUPABASE_APP>
 ```
+
 OR
+
 ```
 NEXT_PUBLIC_SUPABASE_URL=<YOUR_SUPABASE_URL>
 NEXT_PUBLIC_SUPABASE_KEY=<YOUR_SUPABASE_KEY>
@@ -67,6 +67,7 @@ const App = () => {
 };
 export default App;
 ```
+
 OR
 
 ## Use the useGetMessages, send libraries
@@ -91,4 +92,18 @@ OR
       receiver_id: receiver.id,
     });
   }
+```
+
+## Use the useGetActivity
+
+```
+  const senderId = "MNOP";
+  const receiverIds = ["ABC", "XYZ"];
+
+  const page = 0;
+
+  const { activity } = useGetActivity(senderId, receiverIds);
+  // Get notified when any of the recieverIds sends notification to sender
+  // This may be needed when a chat application needs to listen to messages sent by other users
+  // in the contact list who the current user is not listening to (for messages) actively
 ```
