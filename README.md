@@ -9,7 +9,8 @@ Steps:
 3. Enable realtime in 'your_appname_table' table for INSERT
 4. Design table colums like below:
 
-   ![image](https://github.com/user-attachments/assets/8c98bbe2-d47a-4817-abfc-4ab590c60d23)
+   ![image](https://github.com/user-attachments/assets/084428d9-aa36-4d42-af5a-a7896884deda)
+
 
 Next configure your react app to use intelli-chat library
 
