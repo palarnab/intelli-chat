@@ -6,10 +6,11 @@ const supabase = createClient(
 );
 const collection =
   process.env.REACT_APP_SUPABASE_APP || process.env.NEXT_PUBLIC_SUPABASE_APP;
+
 let channel = undefined;
+let notifyEvent = () => {};
 
 const fetch = async (setMessages, conversation_id, page = 0, perpage = 10) => {
-  console.log(`GET - ${page}`);
   const start = page * perpage;
   const end = start + 10;
   const { data, error } = await supabase
@@ -34,13 +35,19 @@ const subscribe = (setMessages, conversation_id) => {
     .on(
       'postgres_changes',
       { event: 'INSERT', schema: 'public', table: collection },
-      () => fetch(setMessages, conversation_id),
+      (payload) => {
+        if (payload.new) {
+          notifyEvent(payload.new);
+          if (payload.new.conversation_id === conversation_id)
+            fetch(setMessages, conversation_id);
+        }
+      },
     )
     .subscribe((payload) => {
       if (payload === 'SUBSCRIBED') {
         fetch(setMessages, conversation_id);
       } else {
-        console.log(payload);
+        // console.log(payload);
       }
     });
 };
@@ -53,4 +60,8 @@ const send = async (content) => {
   await supabase.from(collection).insert({ ...content });
 };
 
-export { subscribe, unsubscribe, send, fetch };
+const watch = async (watcher) => {
+  notifyEvent = watcher;
+};
+
+export { subscribe, unsubscribe, send, fetch, watch };

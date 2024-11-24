@@ -5,11 +5,13 @@ import Error from './Error.jsx';
 import Message from './Message.jsx';
 import SendMessage from './SendMessage.jsx';
 import useGetMessages from './useGetMessages';
+import useGetActivity from './useGetActivity';
 
 const ChatBox = ({
   sender,
   receiver,
   isFullPage,
+  observeUserIds,
   containerHeight,
   showUserAvatar,
   bgSender,
@@ -22,6 +24,7 @@ const ChatBox = ({
     sender.id,
     receiver.id,
   );
+  const { activity } = useGetActivity(sender.id, observeUserIds);
 
   const observer = useRef();
   const lastChatElementRef = useCallback(
@@ -36,6 +39,10 @@ const ChatBox = ({
     },
     [hasMore],
   );
+
+  useEffect(() => {
+    console.log(activity);
+  }, [activity]);
 
   useEffect(() => {
     setTimeout(() => {
