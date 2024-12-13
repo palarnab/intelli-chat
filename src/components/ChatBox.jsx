@@ -5,7 +5,6 @@ import Error from './Error.jsx';
 import Message from './Message.jsx';
 import SendMessage from './SendMessage.jsx';
 import useGetMessages from './useGetMessages';
-import useGetActivity from './useGetActivity';
 
 const ChatBox = ({
   sender,
@@ -19,12 +18,12 @@ const ChatBox = ({
 }) => {
   const [page, setPage] = useState(0);
   const scroll = useRef();
-  const { messages, hasMore, initialized } = useGetMessages(
+  const { activity, messages, hasMore, initialized } = useGetMessages(
     page,
     sender.id,
-    receiver.id,
+    receiver ? receiver.id : null,
+    observeUserIds,
   );
-  const { activity } = useGetActivity(sender.id, observeUserIds);
 
   const observer = useRef();
   const lastChatElementRef = useCallback(
@@ -57,21 +56,10 @@ const ChatBox = ({
     }
   }, []);
 
-  if (
-    !(
-      sender &&
-      sender.id &&
-      sender.name &&
-      receiver &&
-      receiver.id &&
-      receiver.name
-    )
-  ) {
+  if (!(sender && sender.id && sender.name)) {
     return (
       <Error
-        error={`Sender: ${JSON.stringify(
-          sender || {},
-        )} OR Receiver: ${JSON.stringify(receiver || {})} is not complete`}
+        error={`Sender: ${JSON.stringify(sender || {})} is not complete`}
       />
     );
   }
