@@ -1,15 +1,18 @@
-import { fetch, subscribe, unsubscribe } from '../supabase';
+import { watch, fetch, subscribe, unsubscribe } from '../supabase';
 import { useEffect, useState } from 'react';
 
-export default function useGetMessages(page, senderId, receiverId) {
+export default function useGetMessages(
+  page,
+  senderId,
+  receiverId,
+  observerIds,
+) {
   const [messages, setMessages] = useState([]);
   const [hasMore, setHasMore] = useState(false);
+  const [activity, setActivity] = useState({});
+  const [conversationId, setConversationId] = useState([]);
+  const [conversationIds, setConversationIds] = useState([]);
   const [initialized, setInitialized] = useState(false);
-
-  const conversation_id =
-    senderId > receiverId
-      ? `${senderId}-${receiverId}`
-      : `${receiverId}-${senderId}`;
 
   const dedupMessages = (items) => {
     const dedupedObject = items.reduce((acc, item) => {
@@ -20,6 +23,14 @@ export default function useGetMessages(page, senderId, receiverId) {
     }, {});
 
     return Object.values(dedupedObject);
+  };
+
+  const watcher = (payload) => {
+    if (conversationIds.find((c) => c === payload.conversation_id)) {
+      const notification = { ...payload };
+      delete notification.conversation_id;
+      setActivity(notification);
+    }
   };
 
   const mergeMessages = (newMessages) => {
@@ -36,17 +47,34 @@ export default function useGetMessages(page, senderId, receiverId) {
   };
 
   useEffect(() => {
-    fetch((data) => mergeMessages(data), conversation_id, page);
+    fetch((data) => mergeMessages(data), conversationId, page);
   }, [page]);
 
   useEffect(() => {
+    if (!receiverId) {
+      receiverId = senderId;
+    }
+
+    const conversation_id =
+      senderId > receiverId
+        ? `${senderId}-${receiverId}`
+        : `${receiverId}-${senderId}`;
+    setConversationId(conversation_id);
+
+    const conversation_ids = observerIds.map((receiverId) =>
+      senderId > receiverId
+        ? `${senderId}-${receiverId}`
+        : `${receiverId}-${senderId}`,
+    );
+    setConversationIds(() => conversation_ids);
+
     setMessages([]);
-    setInitialized(false);
     subscribe((data) => mergeMessages(data), conversation_id);
+    watch(watcher);
     return () => unsubscribe;
-  }, [senderId, receiverId]);
+  }, [senderId, receiverId, observerIds]);
 
-  if (!senderId || !receiverId) return { messages: [], hasMore: false };
+  if (!senderId) return { messages: [], hasMore: false };
 
-  return { messages, hasMore, initialized };
+  return { activity, messages, hasMore, initialized };
 }

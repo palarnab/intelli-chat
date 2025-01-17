@@ -11,7 +11,6 @@ Steps:
 
    ![image](https://github.com/user-attachments/assets/084428d9-aa36-4d42-af5a-a7896884deda)
 
-
 Next configure your react app to use intelli-chat library
 
 ## Add 3 environments in .env:
@@ -62,7 +61,7 @@ const App = () => {
 
   return (
     <div>
-      <ChatBox sender={sender} receiver={receiver} />
+      <ChatBox sender={sender} receiver={receiver} observeUserIds=['ZZZ', 'YYY'] />
     </div>
   );
 };
@@ -79,10 +78,11 @@ OR
 
   const page = 0;
 
-  const { messages, hasMore, initialized } = useGetMessages(
+  const { activity, messages, hasMore, initialized } = useGetMessages(
     page,
     sender.id,
     receiver.id,
+    ['ZZZ', 'YYY']
   );
 
   const sendMessage = async () => {
@@ -93,18 +93,4 @@ OR
       receiver_id: receiver.id,
     });
   }
-```
-
-## Use the useGetActivity
-
-```
-  const senderId = "MNOP";
-  const receiverIds = ["ABC", "XYZ"];
-
-  const page = 0;
-
-  const { activity } = useGetActivity(senderId, receiverIds);
-  // Get notified when any of the recieverIds sends notification to sender
-  // This may be needed when a chat application needs to listen to messages sent by other users
-  // in the contact list who the current user is not listening to (for messages) actively
 ```
