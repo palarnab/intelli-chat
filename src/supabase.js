@@ -63,23 +63,23 @@ const sendMessage = async (content) => {
 };
 
 const send = async (content) => {
-  let { senderId, receiverId, groupId } = { ...content };
+  let { sender_id, receiver_id, group_id } = { ...content };
 
   const conversation_id =
-    senderId > receiverId
-      ? `${senderId}-${receiverId}`
-      : `${receiverId}-${senderId}`;
+    sender_id > receiver_id
+      ? `${sender_id}-${receiver_id}`
+      : `${receiver_id}-${sender_id}`;
 
-  if (groupId !== undefined) {
-    receiverId = 'GROUP';
-    conversation_id = groupId;
+  if (group_id !== undefined) {
+    receiver_id = 'GROUP';
+    conversation_id = group_id;
   }
 
   await sendMessage({
     ...content,
-    senderId,
-    receiverId,
-    groupId,
+    sender_id,
+    receiver_id,
+    group_id,
     conversation_id,
   });
 };

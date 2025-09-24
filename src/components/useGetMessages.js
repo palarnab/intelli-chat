@@ -1,13 +1,13 @@
 import { watch, fetch, subscribe, unsubscribe } from '../supabase';
 import { useEffect, useState } from 'react';
 
-export default function useGetMessages(
+export default function useGetMessages({
   page,
   senderId,
   receiverId,
   groupId,
   observerIds,
-) {
+}) {
   const [messages, setMessages] = useState([]);
   const [hasMore, setHasMore] = useState(false);
   const [activity, setActivity] = useState({});
@@ -70,7 +70,8 @@ export default function useGetMessages(
       receiverId = senderId;
     }
 
-    setConversationId(() => createCoversationId(senderId, receiverId, groupId));
+    const conversation_id = createCoversationId(senderId, receiverId, groupId);
+    setConversationId(conversation_id);
 
     const conversation_ids = observerIds.map((receiverId) =>
       groupId !== undefined

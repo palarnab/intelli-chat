@@ -75,15 +75,16 @@ OR
 ```
   const sender = { id: "XYZ", name: "Alice" };
   const receiver = { id: "ABC", name: "Bob" };
-
+  const groupId = "ABCD";
   const page = 0;
 
-  const { activity, messages, hasMore, initialized } = useGetMessages(
+  const { activity, messages, hasMore, initialized } = useGetMessages({
     page,
     sender.id,
     receiver.id,
+    groupId,
     ['ZZZ', 'YYY']
-  );
+  });
 
   const sendMessage = async () => {
     await send({
@@ -91,6 +92,8 @@ OR
       conversation_id,
       sender_id: sender.id,
       receiver_id: receiver.id,
+      receiver_id: receiver.id,
+      group_id: USER_GROUP_ID,
     });
   }
 ```
