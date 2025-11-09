@@ -80,10 +80,10 @@ OR
 
   const { activity, messages, hasMore, initialized } = useGetMessages({
     page,
-    sender.id,
-    receiver.id,
+    senderId: sender.id,
+    receiverId: receiver.id,
     groupId,
-    ['ZZZ', 'YYY']
+    observerIds: ['ZZZ', 'YYY']
   });
 
   const sendMessage = async () => {
@@ -91,7 +91,6 @@ OR
       message: 'hello',
       conversation_id,
       sender_id: sender.id,
-      receiver_id: receiver.id,
       receiver_id: receiver.id,
       group_id: USER_GROUP_ID,
     });
