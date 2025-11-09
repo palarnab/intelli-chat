@@ -16,7 +16,7 @@ export default function useGetMessages({
   const [initialized, setInitialized] = useState(false);
 
   const createCoversationId = (senderId, receiverId, groupId) => {
-    const conversation_id =
+    let conversation_id =
       senderId > receiverId
         ? `${senderId}-${receiverId}`
         : `${receiverId}-${senderId}`;
