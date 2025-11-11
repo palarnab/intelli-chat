@@ -65,7 +65,7 @@ const sendMessage = async (content) => {
 const send = async (content) => {
   let { sender_id, receiver_id, group_id } = { ...content };
 
-  const conversation_id =
+  let conversation_id =
     sender_id > receiver_id
       ? `${sender_id}-${receiver_id}`
       : `${receiver_id}-${sender_id}`;
