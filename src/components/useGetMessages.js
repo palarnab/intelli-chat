@@ -1,18 +1,33 @@
 import { watch, fetch, subscribe, unsubscribe } from '../supabase';
 import { useEffect, useState } from 'react';
 
-export default function useGetMessages(
+export default function useGetMessages({
   page,
   senderId,
   receiverId,
+  groupId,
   observerIds,
-) {
+}) {
   const [messages, setMessages] = useState([]);
   const [hasMore, setHasMore] = useState(false);
   const [activity, setActivity] = useState({});
   const [conversationId, setConversationId] = useState([]);
   const [conversationIds, setConversationIds] = useState([]);
   const [initialized, setInitialized] = useState(false);
+
+  const createCoversationId = (senderId, receiverId, groupId) => {
+    let conversation_id =
+      senderId > receiverId
+        ? `${senderId}-${receiverId}`
+        : `${receiverId}-${senderId}`;
+
+    if (groupId !== undefined) {
+      receiverId = 'GROUP';
+      conversation_id = groupId;
+    }
+
+    return conversation_id;
+  };
 
   const dedupMessages = (items) => {
     const dedupedObject = items.reduce((acc, item) => {
@@ -55,14 +70,13 @@ export default function useGetMessages(
       receiverId = senderId;
     }
 
-    const conversation_id =
-      senderId > receiverId
-        ? `${senderId}-${receiverId}`
-        : `${receiverId}-${senderId}`;
+    const conversation_id = createCoversationId(senderId, receiverId, groupId);
     setConversationId(conversation_id);
 
     const conversation_ids = observerIds.map((receiverId) =>
-      senderId > receiverId
+      groupId !== undefined
+        ? receiverId
+        : senderId > receiverId
         ? `${senderId}-${receiverId}`
         : `${receiverId}-${senderId}`,
     );

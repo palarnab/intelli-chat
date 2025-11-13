@@ -15,7 +15,9 @@ const fetch = async (setMessages, conversation_id, page = 0, perpage = 10) => {
   const end = start + 10;
   const { data, error } = await supabase
     .from(collection)
-    .select('id, message, metadata, receiver_id, sender_id, created_at')
+    .select(
+      'id, message, metadata, receiver_id, sender_id, group_id, created_at',
+    )
     .eq('conversation_id', conversation_id)
     .order('created_at', { ascending: false })
     .range(start, end);
@@ -56,8 +58,30 @@ const unsubscribe = () => {
   supabase.removeAllChannels();
 };
 
-const send = async (content) => {
+const sendMessage = async (content) => {
   await supabase.from(collection).insert({ ...content });
+};
+
+const send = async (content) => {
+  let { sender_id, receiver_id, group_id } = { ...content };
+
+  let conversation_id =
+    sender_id > receiver_id
+      ? `${sender_id}-${receiver_id}`
+      : `${receiver_id}-${sender_id}`;
+
+  if (group_id !== undefined) {
+    receiver_id = 'GROUP';
+    conversation_id = group_id;
+  }
+
+  await sendMessage({
+    ...content,
+    sender_id,
+    receiver_id,
+    group_id,
+    conversation_id,
+  });
 };
 
 const watch = async (watcher) => {
