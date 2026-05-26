@@ -109,7 +109,9 @@ const deleteById = async (content) => {
   }
 
   if (existing.conversation_id !== conversation_id) {
-    throw new Error('conversation_id mismatch: cannot delete message from a different conversation');
+    throw new Error(
+      'conversation_id mismatch: cannot delete message from a different conversation',
+    );
   }
 
   await supabase.from(collection).delete().eq('id', id);
@@ -119,4 +121,4 @@ const watch = async (watcher) => {
   notifyEvent = watcher;
 };
 
-export { subscribe, unsubscribe, send, fetch, watch };
+export { subscribe, unsubscribe, send, fetch, watch, deleteById };
