@@ -36,11 +36,12 @@ const subscribe = (setMessages, conversation_id) => {
     .channel('table_db_changes')
     .on(
       'postgres_changes',
-      { event: 'INSERT', schema: 'public', table: collection },
+      { event: '*', schema: 'public', table: collection },
       (payload) => {
-        if (payload.new) {
-          notifyEvent(payload.new);
-          if (payload.new.conversation_id === conversation_id)
+        const record = payload.new || payload.old;
+        if (record) {
+          notifyEvent(record);
+          if (record.conversation_id === conversation_id)
             fetch(setMessages, conversation_id);
         }
       },
@@ -82,6 +83,36 @@ const send = async (content) => {
     group_id,
     conversation_id,
   });
+};
+
+const deleteById = async (content) => {
+  let { sender_id, receiver_id, group_id, id } = { ...content };
+
+  let conversation_id =
+    sender_id > receiver_id
+      ? `${sender_id}-${receiver_id}`
+      : `${receiver_id}-${sender_id}`;
+
+  if (group_id !== undefined) {
+    receiver_id = 'GROUP';
+    conversation_id = group_id;
+  }
+
+  const { data: existing, error: fetchError } = await supabase
+    .from(collection)
+    .select('conversation_id')
+    .eq('id', id)
+    .single();
+
+  if (fetchError || !existing) {
+    throw new Error('Message not found');
+  }
+
+  if (existing.conversation_id !== conversation_id) {
+    throw new Error('conversation_id mismatch: cannot delete message from a different conversation');
+  }
+
+  await supabase.from(collection).delete().eq('id', id);
 };
 
 const watch = async (watcher) => {
