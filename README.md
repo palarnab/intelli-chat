@@ -97,3 +97,21 @@ OR
     });
   }
 ```
+
+## Delete a message by ID
+
+Use `deleteById` to remove a message. It verifies that the message belongs to the expected conversation before deleting.
+
+```
+import { deleteById } from "@tumbleddowntoearth/intelli-chat";
+
+await deleteById({
+  id: "MESSAGE_ID",
+  sender_id: sender.id,
+  receiver_id: receiver.id,
+  group_id: USER_GROUP_ID, // optional, for group conversations
+});
+```
+
+- Throws `"Message not found"` if the message ID does not exist.
+- Throws `"conversation_id mismatch"` if the message belongs to a different conversation.
