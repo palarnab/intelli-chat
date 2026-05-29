@@ -115,3 +115,23 @@ await deleteById({
 
 - Throws `"Message not found"` if the message ID does not exist.
 - Throws `"conversation_id mismatch"` if the message belongs to a different conversation.
+
+## Update a message by ID
+
+Use `updateById` to update a message's content. It verifies that the message belongs to the expected conversation before updating.
+
+```
+import { updateById } from "@tumbleddowntoearth/intelli-chat";
+
+await updateById({
+  id: "MESSAGE_ID",
+  sender_id: sender.id,
+  receiver_id: receiver.id,
+  group_id: USER_GROUP_ID, // optional, for group conversations
+  message: "updated message text",
+  metadata: { key: "value" }, // optional
+});
+```
+
+- Throws `"Message not found"` if the message ID does not exist.
+- Throws `"conversation_id mismatch"` if the message belongs to a different conversation.

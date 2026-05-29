@@ -1,5 +1,5 @@
 import ChatBox from './components/ChatBox.jsx';
 import useGetMessages from './components/useGetMessages.js';
-import { send, deleteById } from './supabase';
+import { send, deleteById, updateById } from './supabase';
 
-export { ChatBox, useGetMessages, send, deleteById };
+export { ChatBox, useGetMessages, send, deleteById, updateById };

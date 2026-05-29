@@ -117,8 +117,40 @@ const deleteById = async (content) => {
   await supabase.from(collection).delete().eq('id', id);
 };
 
+const updateById = async (content) => {
+  let { sender_id, receiver_id, group_id, id, ...updates } = { ...content };
+
+  let conversation_id =
+    sender_id > receiver_id
+      ? `${sender_id}-${receiver_id}`
+      : `${receiver_id}-${sender_id}`;
+
+  if (group_id !== undefined) {
+    receiver_id = 'GROUP';
+    conversation_id = group_id;
+  }
+
+  const { data: existing, error: fetchError } = await supabase
+    .from(collection)
+    .select('conversation_id')
+    .eq('id', id)
+    .single();
+
+  if (fetchError || !existing) {
+    throw new Error('Message not found');
+  }
+
+  if (existing.conversation_id !== conversation_id) {
+    throw new Error(
+      'conversation_id mismatch: cannot update message from a different conversation',
+    );
+  }
+
+  await supabase.from(collection).update({ ...updates }).eq('id', id);
+};
+
 const watch = async (watcher) => {
   notifyEvent = watcher;
 };
 
-export { subscribe, unsubscribe, send, fetch, watch, deleteById };
+export { subscribe, unsubscribe, send, fetch, watch, deleteById, updateById };
